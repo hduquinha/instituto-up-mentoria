@@ -25,17 +25,114 @@ let questionarioData = {
 console.log('🆔 CLIENT_ID gerado:', CLIENT_ID);
 console.log('🔗 Webhook URL:', WEBHOOK_URL);
 
+// Função para coletar dados atuais do formulário em tempo real
+function coletarDadosAtuais() {
+    const dados = {
+        modalidade: selectedPlan,
+        modalidade_completa: selectedPlan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual',
+        experiencia: null,
+        objetivos: [],
+        disponibilidade: null,
+        investimento: null,
+        urgencia: null,
+        comprometimento: null,
+        confianca: {},
+        dados_pessoais: {},
+        visao_futuro: null,
+        obstaculos: null,
+        objetivo_principal: null,
+        ansiedade_situacoes: [],
+        habilidade_inteligencia_emocional: null
+    };
+    
+    // Experiência
+    const experiencia = document.querySelector('input[name="experiencia"]:checked');
+    if (experiencia) dados.experiencia = experiencia.value;
+    
+    // Objetivos
+    const objetivos = document.querySelectorAll('input[name="objetivos"]:checked');
+    dados.objetivos = Array.from(objetivos).map(obj => obj.value);
+    
+    // Disponibilidade
+    const disponibilidade = document.querySelector('input[name="disponibilidade"]:checked');
+    if (disponibilidade) dados.disponibilidade = disponibilidade.value;
+    
+    // Investimento
+    const investimento = document.querySelector('input[name="investimento"]:checked');
+    if (investimento) dados.investimento = investimento.value;
+    
+    // Urgência
+    const urgencia = document.querySelector('input[name="urgencia"]:checked');
+    if (urgencia) dados.urgencia = urgencia.value;
+    
+    // Comprometimento
+    const comprometimento = document.querySelector('input[name="comprometimento"]:checked');
+    if (comprometimento) dados.comprometimento = comprometimento.value;
+    
+    // Visão de futuro
+    const visaoFuturo = document.getElementById('visao_futuro');
+    if (visaoFuturo) dados.visao_futuro = visaoFuturo.value;
+    
+    // Dados pessoais
+    const nome = document.getElementById('nome');
+    const instagram = document.getElementById('instagram');
+    const telefone = document.getElementById('telefone');
+    const cidade = document.getElementById('cidade');
+    const idade = document.getElementById('idade');
+    const empresa = document.getElementById('empresa');
+    const profissao = document.getElementById('profissao');
+    
+    if (nome) dados.dados_pessoais.nome = nome.value;
+    if (instagram) dados.dados_pessoais.instagram = instagram.value;
+    if (telefone) dados.dados_pessoais.telefone = telefone.value;
+    if (cidade) dados.dados_pessoais.cidade = cidade.value;
+    if (idade) dados.dados_pessoais.idade = idade.value;
+    if (empresa) dados.dados_pessoais.empresa = empresa.value;
+    if (profissao) dados.dados_pessoais.profissao = profissao.value;
+    
+    // Obstáculos
+    const obstaculos = document.getElementById('obstaculos');
+    if (obstaculos) dados.obstaculos = obstaculos.value;
+    
+    // Objetivo principal
+    const objetivoPrincipal = document.querySelector('input[name="objetivo_principal"]:checked');
+    if (objetivoPrincipal) dados.objetivo_principal = objetivoPrincipal.value;
+    
+    // Situações de ansiedade/estresse
+    const ansiedadeSituacoes = document.querySelectorAll('input[name="ansiedade_situacoes"]:checked');
+    dados.ansiedade_situacoes = Array.from(ansiedadeSituacoes).map(sit => sit.value);
+    
+    // Habilidade de Inteligência Emocional
+    const habilidadeIE = document.querySelector('input[name="habilidade_ie"]:checked');
+    if (habilidadeIE) dados.habilidade_inteligencia_emocional = habilidadeIE.value;
+    
+    // Confiança (múltiplas escalas)
+    const confiancaFields = ['confianca_opiniao', 'confianca_feedback', 'confianca_lideranca', 'confianca_decisoes', 'confianca_networking'];
+    confiancaFields.forEach(field => {
+        const selected = document.querySelector(`input[name="${field}"]:checked`);
+        if (selected) dados.confianca[field] = selected.value;
+    });
+    
+    return dados;
+}
+
 // Função de webhook simplificada
 async function sendWebhook(step, data = {}) {
     try {
+        // Coletar dados atualizados do formulário a cada envio
+        const dadosAtuais = coletarDadosAtuais();
+        
         const payload = {
             client_id: CLIENT_ID,
             timestamp: new Date().toISOString(),
             step_completed: step,
+            session_data: dadosAtuais, // Todos os dados coletados até agora
+            current_step_data: data,   // Dados específicos do step atual
+            progress_percentage: (step / 7) * 100,
             ...data
         };
         
-        console.log('📤 Enviando webhook:', payload);
+        console.log('📤 Enviando webhook com dados acumulados:', payload);
         
         const response = await fetch(WEBHOOK_URL, {
             method: 'POST',
@@ -134,7 +231,7 @@ function nextStep() {
         sendWebhook(1, {
             step_name: 'chegou_selecao_plano',
             conversion_step: 'step_1_plan_selection_reached',
-            progress_percentage: (1 / totalSteps) * 100
+            action: 'started_plan_selection'
         });
         return;
     }
@@ -148,25 +245,54 @@ function nextStep() {
         
         console.log('📋 STEP 1 → 2: Enviando modalidade selecionada:', selectedPlan);
         
-        // Webhook específico do STEP 1 com modalidade selecionada
-        const modalidadeCompleta = selectedPlan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual';
-        
         sendWebhook(2, {
             step_name: 'modalidade_confirmada',
-            modalidade_selecionada: selectedPlan,
-            modalidade_nome_completo: modalidadeCompleta,
             conversion_step: 'step_2_plan_confirmed',
-            plan_type: selectedPlan,
-            plan_category: selectedPlan === 'grupo' ? 'group_mentoring' : 'individual_mentoring',
-            progress_percentage: (2 / totalSteps) * 100,
-            user_choice: {
-                option: selectedPlan,
-                display_name: modalidadeCompleta,
-                timestamp: new Date().toISOString()
+            action: 'plan_confirmed',
+            plan_details: {
+                tipo: selectedPlan,
+                nome_completo: selectedPlan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual',
+                categoria: selectedPlan === 'grupo' ? 'group_mentoring' : 'individual_mentoring'
             }
         });
         
-        console.log('✅ Webhook STEP 2 enviado com modalidade:', modalidadeCompleta);
+        console.log('✅ Webhook STEP 2 enviado com modalidade:', selectedPlan);
+    }
+    
+    // STEP 2 → STEP 3: Dados pessoais coletados
+    if (currentStep === 2) {
+        sendWebhook(3, {
+            step_name: 'dados_pessoais_coletados',
+            conversion_step: 'step_3_personal_data',
+            action: 'personal_data_completed'
+        });
+    }
+    
+    // STEP 3 → STEP 4: Diagnóstico/experiência coletada
+    if (currentStep === 3) {
+        sendWebhook(4, {
+            step_name: 'diagnostico_experiencia',
+            conversion_step: 'step_4_experience_assessment',
+            action: 'experience_data_completed'
+        });
+    }
+    
+    // STEP 4 → STEP 5: Visão de futuro e comprometimento
+    if (currentStep === 4) {
+        sendWebhook(5, {
+            step_name: 'visao_futuro_comprometimento',
+            conversion_step: 'step_5_future_vision',
+            action: 'future_vision_completed'
+        });
+    }
+    
+    // STEP 5 → STEP 6: Dados finais coletados
+    if (currentStep === 5) {
+        sendWebhook(6, {
+            step_name: 'dados_finais_coletados',
+            conversion_step: 'step_6_final_data',
+            action: 'final_assessment_completed'
+        });
     }
     
     // Progressão normal para outros steps
@@ -176,6 +302,13 @@ function nextStep() {
         if (currentStep === 6) { // Step 6 → Step 7 (Resumo)
             console.log('📋 Coletando dados para resumo...');
             coletarDadosQuestionario();
+            
+            // Enviar webhook com dados completos para o resumo
+            sendWebhook(7, {
+                step_name: 'resumo_gerado',
+                conversion_step: 'step_7_summary_generated',
+                action: 'summary_displayed'
+            });
             
             // Aguardar um pouco antes de gerar o resumo
             setTimeout(() => {
@@ -188,22 +321,15 @@ function nextStep() {
         console.log('✅ Avançando para step:', currentStep);
         showStep(currentStep);
         
-        // Webhook genérico para outros steps
-        if (currentStep > 2) {
-            sendWebhook(currentStep, {
-                conversion_step: 'step_' + currentStep + '_reached',
-                progress_percentage: (currentStep / totalSteps) * 100,
-                current_plan: selectedPlan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual'
-            });
-        }
     } else {
         console.log('🏁 Questionário finalizado!');
-        // Enviar dados finais
-        sendWebhook(totalSteps, {
+        // Enviar dados finais completos
+        sendWebhook(8, {
+            step_name: 'questionario_finalizado',
             conversion_step: 'questionnaire_completed',
-            progress_percentage: 100,
-            final_data: questionarioData,
-            completion_time: new Date().toISOString()
+            action: 'questionnaire_completed',
+            completion_time: new Date().toISOString(),
+            total_steps_completed: currentStep + 1
         });
         alert('Questionário finalizado com sucesso!');
     }

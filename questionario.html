@@ -292,6 +292,19 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Estilos para itens do resumo */
+        .resume-item {
+            margin: 8px 0;
+            padding: 8px 0;
+            color: #1B365D;
+            font-size: 0.95rem;
+        }
+        
+        .resume-item strong {
+            color: #FF6B35;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -385,11 +398,11 @@
                             </div>
                             
                             <div class="field-group">
-                                <label class="field-label" for="email">
-                                    <span class="label-text">E-mail: *</span>
-                                    <span class="label-icon">📧</span>
+                                <label class="field-label" for="instagram">
+                                    <span class="label-text">Instagram: *</span>
+                                    <span class="label-icon">�</span>
                                 </label>
-                                <input type="email" id="email" name="email" class="typeform-input" placeholder="seu@email.com" required>
+                                <input type="text" id="instagram" name="instagram" class="typeform-input" placeholder="@seuinstagram" required>
                             </div>
                             
                             <div class="field-group">
@@ -763,7 +776,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JS -->
-    <script src="script-simples.js"></script>
+    <script src="script-emergencia.js"></script>
     
     <!-- Script de Emergência para Seleção de Planos -->
     <script>
