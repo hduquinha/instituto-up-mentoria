@@ -8,7 +8,7 @@ let selectedPlan = '';
 
 // CLIENT_ID único
 const CLIENT_ID = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-const WEBHOOK_URL = 'https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718';
+const WEBHOOK_URL = 'https://up-n8n.welzbd.easypanel.host/webhook/a90b965c-7606-43eb-9d80-18e99bbd6718';
 
 // Dados do questionário para resumo
 let questionarioData = {

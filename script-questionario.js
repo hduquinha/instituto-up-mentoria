@@ -6,7 +6,7 @@ const totalSteps = 6;
 let selectedPlan = '';
 
 // URL do webhook do n8n - SUBSTITUA PELA SUA URL REAL
-const WEBHOOK_URL = 'https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718';
+const WEBHOOK_URL = 'https://up-n8n.welzbd.easypanel.host/webhook/a90b965c-7606-43eb-9d80-18e99bbd6718';
 
 // Gerar ID único para o cliente/sessão
 function generateClientId() {

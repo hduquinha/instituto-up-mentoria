@@ -26,7 +26,7 @@
 - ✅ Validações e feedback visual em tempo real
 
 ### **3. Sistema de Webhook Inteligente**
-- ✅ Integração com n8n: `https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718`
+- ✅ Integração com n8n: `https://up-n8n.welzbd.easypanel.host/webhook/a90b965c-7606-43eb-9d80-18e99bbd6718`
 - ✅ CLIENT_ID único para tracking completo da jornada
 - ✅ 8 pontos de captura de dados (Steps 0-6 + Abandono)
 - ✅ Captura específica de modalidade selecionada
