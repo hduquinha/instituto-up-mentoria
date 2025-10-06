@@ -273,6 +273,25 @@
             font-size: 0.85rem;
             font-weight: 500;
         }
+        
+        /* Loading do resumo */
+        .loading-summary {
+            text-align: center;
+            padding: 40px;
+            color: #1B365D;
+        }
+        
+        .loading-summary i {
+            font-size: 2rem;
+            color: #FF6B35;
+            margin-bottom: 15px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -669,7 +688,38 @@
                     </div>
                 </div>
 
-                <!-- Step 7: Sucesso -->
+                <!-- Step 7: Resumo do Questionário -->
+                <div class="form-step" id="step-summary">
+                    <div class="step-content">
+                        <div class="step-number">7</div>
+                        <div class="step-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h2 class="step-title">Resumo do Seu Perfil 📋</h2>
+                        <p class="step-description">Veja o resumo das suas respostas e descubra sua recomendação personalizada:</p>
+                        
+                        <div class="summary-content" id="summaryContent">
+                            <!-- Conteúdo será gerado via JavaScript -->
+                            <div class="loading-summary">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Gerando seu resumo personalizado...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Confirmar e Finalizar
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 8: Sucesso -->
                 <div class="form-step" id="step-success">
                     <div class="step-content">
                         <div class="success-icon">
@@ -703,7 +753,7 @@
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <div class="progress-text">
-                    <span id="currentStep">1</span> / <span id="totalSteps">6</span>
+                    <span id="currentStep">1</span> / <span id="totalSteps">7</span>
                 </div>
             </div>
         </div>

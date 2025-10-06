@@ -3,7 +3,7 @@ console.log('🚀 Script simplificado carregando...');
 
 // Variáveis globais
 let currentStep = 0;
-const totalSteps = 7; // Atualizado para incluir resumo
+const totalSteps = 8; // Atualizado: Welcome + 6 steps + Resumo + Sucesso
 let selectedPlan = '';
 
 // CLIENT_ID único
@@ -113,9 +113,11 @@ function showStep(step) {
     const currentStepElement = document.getElementById('currentStep');
     
     if (progressFill && currentStepElement) {
-        const progress = (step / totalSteps) * 100;
+        // Não incluir o step final de sucesso no cálculo da progress bar
+        const progressSteps = Math.min(step, 7); // Máximo 7 para não incluir step de sucesso
+        const progress = (progressSteps / 7) * 100;
         progressFill.style.width = progress + '%';
-        currentStepElement.textContent = step + 1;
+        currentStepElement.textContent = Math.min(step + 1, 7); // Mostrar no máximo 7
     }
 }
 
@@ -170,11 +172,16 @@ function nextStep() {
     // Progressão normal para outros steps
     if (currentStep < totalSteps - 1) {
         
-        // Coletar dados antes de avançar para o resumo
-        if (currentStep === totalSteps - 2) { // Penúltimo step → Resumo
+        // Coletar dados antes de avançar para o resumo (step 6 → step 7)
+        if (currentStep === 6) { // Step 6 → Step 7 (Resumo)
             console.log('📋 Coletando dados para resumo...');
             coletarDadosQuestionario();
-            generateSummary();
+            
+            // Aguardar um pouco antes de gerar o resumo
+            setTimeout(() => {
+                console.log('🎨 Gerando resumo visual...');
+                generateSummary();
+            }, 500);
         }
         
         currentStep++;
@@ -244,39 +251,56 @@ function coletarDadosQuestionario() {
     
     // Modalidade
     questionarioData.modalidade = selectedPlan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual';
+    console.log('✅ Modalidade:', questionarioData.modalidade);
     
     // Experiência
     const experiencia = document.querySelector('input[name="experiencia"]:checked');
     if (experiencia) {
         questionarioData.experiencia = experiencia.value;
+        console.log('✅ Experiência:', questionarioData.experiencia);
+    } else {
+        console.log('⚠️ Experiência não encontrada');
     }
     
     // Objetivos
     const objetivos = document.querySelectorAll('input[name="objetivos"]:checked');
     questionarioData.objetivos = Array.from(objetivos).map(obj => obj.value);
+    console.log('✅ Objetivos encontrados:', questionarioData.objetivos.length);
     
     // Disponibilidade
     const disponibilidade = document.querySelector('input[name="disponibilidade"]:checked');
     if (disponibilidade) {
         questionarioData.disponibilidade = disponibilidade.value;
+        console.log('✅ Disponibilidade:', questionarioData.disponibilidade);
+    } else {
+        console.log('⚠️ Disponibilidade não encontrada');
     }
     
     // Investimento
     const investimento = document.querySelector('input[name="investimento"]:checked');
     if (investimento) {
         questionarioData.investimento = investimento.value;
+        console.log('✅ Investimento:', questionarioData.investimento);
+    } else {
+        console.log('⚠️ Investimento não encontrado');
     }
     
     // Urgência
     const urgencia = document.querySelector('input[name="urgencia"]:checked');
     if (urgencia) {
         questionarioData.urgencia = urgencia.value;
+        console.log('✅ Urgência:', questionarioData.urgencia);
+    } else {
+        console.log('⚠️ Urgência não encontrada');
     }
     
     // Comprometimento
     const comprometimento = document.querySelector('input[name="comprometimento"]:checked');
     if (comprometimento) {
         questionarioData.comprometimento = comprometimento.value;
+        console.log('✅ Comprometimento:', questionarioData.comprometimento);
+    } else {
+        console.log('⚠️ Comprometimento não encontrado');
     }
     
     // Confiança (múltiplas escalas)
@@ -285,10 +309,13 @@ function coletarDadosQuestionario() {
         const selected = document.querySelector(`input[name="${field}"]:checked`);
         if (selected) {
             questionarioData.confianca[field] = selected.value;
+            console.log(`✅ ${field}:`, selected.value);
+        } else {
+            console.log(`⚠️ ${field} não encontrado`);
         }
     });
     
-    console.log('✅ Dados coletados:', questionarioData);
+    console.log('📋 Dados coletados completos:', questionarioData);
 }
 
 // Função para gerar resumo personalizado
@@ -298,12 +325,26 @@ function generateSummary() {
     const summaryContainer = document.getElementById('summaryContent');
     if (!summaryContainer) {
         console.error('❌ Container de resumo não encontrado');
-        return;
+        console.log('🔍 Tentando encontrar container alternativo...');
+        
+        // Tentar encontrar por classe
+        const altContainer = document.querySelector('.summary-content');
+        if (!altContainer) {
+            console.error('❌ Nenhum container de resumo encontrado');
+            return;
+        } else {
+            console.log('✅ Container alternativo encontrado');
+        }
     }
+    
+    const container = summaryContainer || document.querySelector('.summary-content');
     
     // Calcular pontuação de liderança
     const liderancaScore = calcularScoreLideranca();
     const recomendacao = gerarRecomendacao(liderancaScore);
+    
+    console.log('📊 Score de liderança calculado:', liderancaScore);
+    console.log('💡 Recomendação gerada:', recomendacao.titulo);
     
     const summaryHTML = `
         <div class="summary-card">
@@ -371,8 +412,8 @@ function generateSummary() {
         </div>
     `;
     
-    summaryContainer.innerHTML = summaryHTML;
-    console.log('✅ Resumo gerado com sucesso!');
+    container.innerHTML = summaryHTML;
+    console.log('✅ Resumo gerado e inserido com sucesso!');
 }
 
 // Calcular score de liderança baseado nas respostas de confiança
