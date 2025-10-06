@@ -1,0 +1,185 @@
+{
+  "name": "Mentoria Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mentoria-leads",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"step_completed\"]}}",
+              "operation": "equal",
+              "value2": "0"
+            }
+          ]
+        }
+      },
+      "id": "if-form-started",
+      "name": "Form Started?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"step_completed\"]}}",
+              "operation": "equal",
+              "value2": "4"
+            }
+          ]
+        }
+      },
+      "id": "if-form-completed",
+      "name": "Form Completed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "resource": "contact",
+        "additionalFields": {
+          "properties": {
+            "email": "={{$json[\"email\"]}}",
+            "firstname": "={{$json[\"name\"]}}",
+            "phone": "={{$json[\"phone\"]}}",
+            "jobtitle": "={{$json[\"position\"]}}",
+            "lead_source": "={{$json[\"source\"]}}",
+            "mentoria_plan": "={{$json[\"plan\"]}}",
+            "form_step": "={{$json[\"step_completed\"]}}"
+          }
+        }
+      },
+      "id": "hubspot-contact",
+      "name": "Create/Update HubSpot Contact",
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 1,
+      "position": [900, 200]
+    },
+    {
+      "parameters": {
+        "message": "🎯 **NOVO LEAD - MENTORIA**\n\n👤 **Nome:** {{$json[\"name\"]}}\n📧 **Email:** {{$json[\"email\"]}}\n📱 **Telefone:** {{$json[\"phone\"]}}\n🎓 **Plano:** {{$json[\"plan\"]}}\n💼 **Cargo:** {{$json[\"position\"]}}\n📊 **Etapa:** {{$json[\"step_completed\"]}}\n⏰ **Hora:** {{$json[\"timestamp\"]}}",
+        "chatId": "SEU_CHAT_ID_TELEGRAM"
+      },
+      "id": "telegram-notification",
+      "name": "Telegram Notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "success"
+            },
+            {
+              "name": "message", 
+              "value": "Lead captured successfully"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "response-node",
+      "name": "Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Form Started?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form Started?": {
+      "main": [
+        [
+          {
+            "node": "Form Completed?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form Completed?": {
+      "main": [
+        [
+          {
+            "node": "Create/Update HubSpot Contact",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram Notification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create/Update HubSpot Contact": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Notification": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

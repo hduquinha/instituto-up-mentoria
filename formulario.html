@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - Mentoria Autodomínio | Instituto UP</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="up.png">
+    <link rel="shortcut icon" type="image/png" href="up.png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Formulário Section - Estilo Typeform -->
+    <section class="typeform-section">
+        <div class="typeform-container">
+            <div class="typeform-content">
+                <!-- Step 1: Bem-vindo -->
+                <div class="form-step active" id="step-welcome">
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h2 class="step-title">Bem-vindo(a)! 👋</h2>
+                        <p class="step-description">Vamos descobrir qual mentoria é perfeita para você em apenas 3 passos.</p>
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Começar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Escolha do Plano -->
+                <div class="form-step" id="step-plan">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <h2 class="step-title">Qual formato combina mais com você?</h2>
+                        <p class="step-description">Escolha a modalidade que melhor se adapta ao seu perfil:</p>
+                        
+                        <div class="plan-options">
+                            <div class="plan-option" data-plan="grupo">
+                                <div class="plan-header">
+                                    <i class="fas fa-users"></i>
+                                    <h3>Mentoria em Grupo</h3>
+                                    <span class="plan-badge">MAIS ESCOLHIDA</span>
+                                </div>
+                                <p>Ideal para quem valoriza networking e aprende melhor em grupo</p>
+                                <ul class="plan-features">
+                                    <li>Lives semanais ao vivo</li>
+                                    <li>Grupo exclusivo WhatsApp</li>
+                                    <li>Networking com outros profissionais</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-option" data-plan="individual">
+                                <div class="plan-header">
+                                    <i class="fas fa-user-crown"></i>
+                                    <h3>Mentoria Individual</h3>
+                                    <span class="plan-badge premium">PREMIUM</span>
+                                </div>
+                                <p>Perfeita para atenção 100% personalizada e resultados mais rápidos</p>
+                                <ul class="plan-features">
+                                    <li>4 sessões individuais 1:1</li>
+                                    <li>Plano 100% personalizado</li>
+                                    <li>Suporte prioritário</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()" id="planContinueBtn" style="opacity: 0.5; pointer-events: none;">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Dados Pessoais -->
+                <div class="form-step" id="step-info">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <h2 class="step-title">Vamos nos conhecer melhor!</h2>
+                        <p class="step-description">Precisamos de algumas informações para personalizar sua experiência:</p>
+                        
+                        <form class="typeform-fields" id="mainForm">
+                            <input type="hidden" id="selectedPlan" name="plano" value="">
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="nome">
+                                    <span class="label-text">Qual é o seu nome completo? *</span>
+                                    <span class="label-icon">👤</span>
+                                </label>
+                                <input type="text" id="nome" name="nome" class="typeform-input" placeholder="Digite seu nome completo" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="email">
+                                    <span class="label-text">Qual é o seu melhor e-mail? *</span>
+                                    <span class="label-icon">📧</span>
+                                </label>
+                                <input type="email" id="email" name="email" class="typeform-input" placeholder="seu@email.com" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="telefone">
+                                    <span class="label-text">Qual é o seu WhatsApp? *</span>
+                                    <span class="label-icon">📱</span>
+                                </label>
+                                <input type="tel" id="telefone" name="telefone" class="typeform-input" placeholder="(11) 99999-9999" required>
+                            </div>
+                            
+                            <div class="field-group" id="cargoField" style="display: none;">
+                                <label class="field-label" for="cargo">
+                                    <span class="label-text">Qual é o seu cargo atual? *</span>
+                                    <span class="label-icon">💼</span>
+                                </label>
+                                <input type="text" id="cargo" name="cargo" class="typeform-input" placeholder="Ex: Gerente, Diretor, CEO...">
+                            </div>
+                        </form>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="console.log('Botão clicado!'); nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="btn-typeform btn-secondary" onclick="console.log('Debug:', currentStep, selectedPlan)" style="margin-top: 10px;">
+                                Debug Info
+                            </button>
+                            <button class="btn-typeform btn-secondary" onclick="testNext()" style="margin-top: 10px;">
+                                Test Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Finalização -->
+                <div class="form-step" id="step-final">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <h2 class="step-title">Quase lá! ✨</h2>
+                        <p class="step-description">Confirme seus dados e finalize sua inscrição:</p>
+                        
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>Resumo da sua escolha:</h3>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-item">
+                                    <strong>Modalidade:</strong>
+                                    <span id="planSummary"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Nome:</strong>
+                                    <span id="nameSummary"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <strong>E-mail:</strong>
+                                    <span id="emailSummary"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <strong>WhatsApp:</strong>
+                                    <span id="phoneSummary"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="submitForm()">
+                                <i class="fas fa-check"></i>
+                                Confirmar Inscrição
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Sucesso -->
+                <div class="form-step" id="step-success">
+                    <div class="step-content">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 class="step-title">Inscrição realizada com sucesso! 🎉</h2>
+                        <p class="step-description">Nossa equipe entrará em contato em até 24 horas para apresentar todos os detalhes da sua mentoria.</p>
+                        
+                        <div class="next-steps">
+                            <h3>Próximos passos:</h3>
+                            <ul>
+                                <li>📧 Verifique seu e-mail (inclusive spam)</li>
+                                <li>📱 Aguarde nosso contato via WhatsApp</li>
+                                <li>🗓️ Prepare-se para sua jornada de transformação</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-primary" onclick="window.location.href='index.html'">
+                                <i class="fas fa-home"></i>
+                                Voltar ao Início
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="currentStep">1</span> / <span id="totalSteps">4</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    
+    <!-- Inline Script para Debug -->
+    <script>
+        // Função de teste
+        function testNext() {
+            console.log('testNext chamada');
+            console.log('currentStep atual:', window.currentStep || currentStep);
+            console.log('selectedPlan atual:', window.selectedPlan || selectedPlan);
+            
+            if (typeof nextStep === 'function') {
+                nextStep();
+            } else {
+                console.error('nextStep não está definida');
+            }
+        }
+        
+        // Garantir que as variáveis globais estejam acessíveis
+        window.addEventListener('load', function() {
+            console.log('Página carregada, verificando funções...');
+            console.log('nextStep existe?', typeof nextStep);
+            console.log('selectPlan existe?', typeof selectPlan);
+            console.log('currentStep:', currentStep);
+        });
+    </script>
+</body>
+</html>

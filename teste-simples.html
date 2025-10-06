@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Teste Simples - Seleção de Planos</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .plan-option {
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-option:hover {
+            border-color: #FF6B35;
+            background: #fff8f5;
+            transform: scale(1.02);
+        }
+        
+        .plan-option.selected {
+            border-color: #FF6B35;
+            background: #fff0e6;
+            box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+        }
+        
+        .plan-option.selected::before {
+            content: '✅ SELECIONADO';
+            display: block;
+            background: #FF6B35;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px 10px;
+        }
+        
+        .btn-disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+        
+        .btn-enabled {
+            background: #FF6B35;
+            color: white;
+        }
+        
+        h1, h2, h3 { color: #1B365D; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste de Seleção - Instituto UP</h1>
+    
+    <div class="debug" id="debug">
+        Status: Aguardando seleção...
+    </div>
+    
+    <h2>Escolha sua modalidade de mentoria:</h2>
+    
+    <div class="plan-option" data-plan="grupo" onclick="selectPlan('grupo')">
+        <h3>📚 Mentoria em Grupo</h3>
+        <p><strong>MAIS ESCOLHIDA</strong></p>
+        <ul>
+            <li>Lives semanais ao vivo</li>
+            <li>Grupo exclusivo WhatsApp</li>
+            <li>Networking com profissionais</li>
+        </ul>
+    </div>
+    
+    <div class="plan-option" data-plan="individual" onclick="selectPlan('individual')">
+        <h3>⭐ Mentoria Individual</h3>
+        <p><strong>PREMIUM</strong></p>
+        <ul>
+            <li>4 sessões individuais 1:1</li>
+            <li>Plano 100% personalizado</li>
+            <li>Suporte prioritário</li>
+        </ul>
+    </div>
+    
+    <button id="continueBtn" class="btn-disabled" disabled onclick="continuar()">
+        ⚠️ Selecione um plano primeiro
+    </button>
+    
+    <script>
+        let selectedPlan = '';
+        
+        function selectPlan(plan) {
+            console.log('Plano selecionado:', plan);
+            
+            // Debug
+            document.getElementById('debug').innerHTML = `Status: Plano "${plan}" selecionado!`;
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Adicionar seleção ao clicado
+            document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+            
+            // Habilitar botão
+            const btn = document.getElementById('continueBtn');
+            btn.className = 'btn-enabled';
+            btn.disabled = false;
+            btn.innerHTML = '✅ Continuar com ' + (plan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual');
+            
+            selectedPlan = plan;
+        }
+        
+        function continuar() {
+            if (selectedPlan) {
+                alert('✅ Funcionou! Plano selecionado: ' + selectedPlan);
+                // Aqui redirecionaria para o próximo step
+                window.location.href = 'questionario.html#step2';
+            }
+        }
+        
+        console.log('🚀 Teste carregado. Clique em um dos planos.');
+    </script>
+</body>
+</html>

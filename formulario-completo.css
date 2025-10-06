@@ -1,0 +1,470 @@
+/* CSS específico para o questionário completo */
+
+/* Radio buttons customizados */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px 20px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.radio-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+.radio-option input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-option input[type="radio"]:checked ~ span:not(.radio-custom) {
+    color: var(--dark-color);
+    font-weight: 500;
+}
+
+/* Checkbox customizados */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px 20px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.checkbox-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+.checkbox-option input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checkbox-option input[type="checkbox"]:checked + .checkbox-custom {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+}
+
+.checkbox-option input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inline-input {
+    margin-top: 10px;
+    margin-left: 0;
+    flex: 1;
+}
+
+/* Scale de 0-10 */
+.scale-group {
+    margin-top: 20px;
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.scale-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.scale-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 5px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-width: 40px;
+}
+
+.scale-option:hover {
+    background: rgba(255, 107, 53, 0.1);
+}
+
+.scale-option input[type="radio"] {
+    display: none;
+}
+
+.scale-option span {
+    font-weight: 600;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.scale-option input[type="radio"]:checked ~ span {
+    color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.scale-option:has(input[type="radio"]:checked) {
+    background: var(--primary-color);
+}
+
+.scale-option:has(input[type="radio"]:checked) span {
+    color: white;
+}
+
+/* Avaliação de confiança */
+.confidence-assessments {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.confidence-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.confidence-item > label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+.confidence-scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.confidence-scale label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    flex: 1;
+    background: white;
+    border: 2px solid #e1e5e9;
+}
+
+.confidence-scale label:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+.confidence-scale input[type="radio"] {
+    display: none;
+}
+
+.confidence-scale span {
+    font-weight: 600;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.confidence-scale label:has(input[type="radio"]:checked) {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.confidence-scale label:has(input[type="radio"]:checked) span {
+    color: white;
+}
+
+/* Textarea melhorado */
+.typeform-input[rows] {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+/* Seções específicas */
+.diagnostico-section,
+.futuro-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Summary melhorado */
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item strong {
+    color: var(--dark-color);
+    min-width: 150px;
+}
+
+.summary-item span {
+    color: #666;
+    font-weight: 500;
+    text-align: right;
+    flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .scale-options {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .scale-option {
+        min-width: 35px;
+        flex: 1;
+    }
+    
+    .confidence-scale {
+        gap: 5px;
+    }
+    
+    .confidence-scale label {
+        padding: 8px 5px;
+    }
+    
+    .radio-option,
+    .checkbox-option {
+        padding: 12px 15px;
+    }
+    
+    .summary-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .summary-item span {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .scale-options {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+    }
+    
+    .scale-option {
+        min-width: 30px;
+        padding: 8px 3px;
+    }
+    
+    .scale-option span {
+        font-size: 1rem;
+    }
+}
+
+/* Plan Options Styling */
+.plan-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.plan-option {
+    border: 2px solid #e1e5e9;
+    border-radius: 15px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+    position: relative;
+    text-align: center;
+}
+
+.plan-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 53, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+}
+
+.plan-option.selected {
+    border-color: var(--primary-color);
+    background: rgba(255, 107, 53, 0.1);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+}
+
+.plan-option.selected::before {
+    content: '✓';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.plan-header {
+    margin-bottom: 15px;
+}
+
+.plan-header i {
+    font-size: 30px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.plan-header h3 {
+    font-size: 1.4rem;
+    color: var(--dark-color);
+    margin: 10px 0 5px 0;
+}
+
+.plan-badge {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--dark-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.plan-badge.premium {
+    background: var(--primary-color);
+    color: white;
+}
+
+.plan-option p {
+    color: #666;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+}
+
+.plan-features li {
+    padding: 8px 0;
+    color: #555;
+    position: relative;
+    padding-left: 25px;
+}
+
+.plan-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .plan-options {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .plan-option {
+        padding: 20px;
+    }
+    
+    .plan-header h3 {
+        font-size: 1.2rem;
+    }
+}

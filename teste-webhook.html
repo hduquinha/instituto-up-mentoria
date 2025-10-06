@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Teste Webhook + Seleção</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .debug-panel {
+            background: #2d3748;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .plan-option {
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-option:hover {
+            border-color: #FF6B35;
+            background: #fff8f5;
+            transform: scale(1.02);
+        }
+        
+        .plan-option.selected {
+            border-color: #FF6B35;
+            background: #fff0e6;
+            box-shadow: 0 5px 15px rgba(255,107,53,0.3);
+        }
+        
+        .plan-option.selected::before {
+            content: '✅ SELECIONADO';
+            display: block;
+            background: #FF6B35;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px 10px;
+        }
+        
+        .btn-test {
+            background: #4299e1;
+            color: white;
+        }
+        
+        h1, h2, h3 { color: #1B365D; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Teste Completo - Webhook + Seleção</h1>
+    
+    <button class="btn-test" onclick="testarWebhook()">🧪 Testar Webhook Direto</button>
+    <button class="btn-test" onclick="limparLog()">🗑️ Limpar Log</button>
+    
+    <div class="debug-panel" id="debugLog">
+        Aguardando ações...<br>
+    </div>
+    
+    <h2>Escolha sua modalidade (com webhook automático):</h2>
+    
+    <div class="plan-option" data-plan="grupo" onclick="selectPlan('grupo')">
+        <h3>📚 Mentoria em Grupo</h3>
+        <p><strong>MAIS ESCOLHIDA</strong></p>
+        <ul>
+            <li>Lives semanais ao vivo</li>
+            <li>Grupo exclusivo WhatsApp</li>
+            <li>Networking com profissionais</li>
+        </ul>
+    </div>
+    
+    <div class="plan-option" data-plan="individual" onclick="selectPlan('individual')">
+        <h3>⭐ Mentoria Individual</h3>
+        <p><strong>PREMIUM</strong></p>
+        <ul>
+            <li>4 sessões individuais 1:1</li>
+            <li>Plano 100% personalizado</li>
+            <li>Suporte prioritário</li>
+        </ul>
+    </div>
+    
+    <script>
+        const CLIENT_ID = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const WEBHOOK_URL = 'https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718';
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('debugLog');
+            logElement.innerHTML += `[${timestamp}] ${message}<br>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+        
+        function limparLog() {
+            document.getElementById('debugLog').innerHTML = 'Log limpo...<br>';
+        }
+        
+        async function enviarWebhook(dados) {
+            try {
+                log(`📤 Enviando webhook: ${JSON.stringify(dados, null, 2)}`);
+                
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+                
+                const responseText = await response.text();
+                
+                if (response.ok) {
+                    log(`✅ Webhook enviado com sucesso! Status: ${response.status}`);
+                    log(`📥 Resposta: ${responseText}`);
+                } else {
+                    log(`❌ Erro no webhook! Status: ${response.status}`);
+                    log(`📥 Erro: ${responseText}`);
+                }
+                
+                return response.ok;
+            } catch (error) {
+                log(`❌ Erro de conexão: ${error.message}`);
+                return false;
+            }
+        }
+        
+        function testarWebhook() {
+            const dadosTeste = {
+                client_id: CLIENT_ID,
+                timestamp: new Date().toISOString(),
+                step_completed: 0,
+                plan: '',
+                source: 'teste_webhook',
+                interaction: 'test_button_clicked',
+                test: true
+            };
+            
+            enviarWebhook(dadosTeste);
+        }
+        
+        function selectPlan(plan) {
+            log(`🎯 Plano selecionado: ${plan}`);
+            
+            // Visual feedback
+            document.querySelectorAll('.plan-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+            
+            // Enviar webhook
+            const dadosPlano = {
+                client_id: CLIENT_ID,
+                session_id: CLIENT_ID,
+                timestamp: new Date().toISOString(),
+                step_completed: 0.5,
+                plan: plan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual',
+                source: 'teste_questionario',
+                interaction: 'plan_selected',
+                plan_selection_time: new Date().toISOString()
+            };
+            
+            enviarWebhook(dadosPlano);
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            log(`🚀 Teste iniciado! CLIENT_ID: ${CLIENT_ID}`);
+            log(`🔗 Webhook URL: ${WEBHOOK_URL}`);
+            
+            // Webhook de inicialização
+            const dadosIniciais = {
+                client_id: CLIENT_ID,
+                session_id: CLIENT_ID,
+                timestamp: new Date().toISOString(),
+                step_completed: 0,
+                plan: '',
+                source: 'teste_questionario',
+                interaction: 'test_started',
+                user_agent: navigator.userAgent,
+                page_url: window.location.href
+            };
+            
+            enviarWebhook(dadosIniciais);
+        });
+    </script>
+</body>
+</html>

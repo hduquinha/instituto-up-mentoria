@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário Mentoria Autodomínio | Instituto UP</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="up.png">
+    <link rel="shortcut icon" type="image/png" href="up.png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+        <!-- CSS Customizado -->
+    <link rel="stylesheet" href="formulario-completo.css">
+    
+    <!-- CSS de Emergência para Seleção -->
+    <style>
+        /* Fix para botões travados */
+        .btn-typeform {
+            padding: 15px 30px !important;
+            border: none !important;
+            border-radius: 10px !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            text-decoration: none !important;
+            pointer-events: auto !important;
+            opacity: 1 !important;
+        }
+        
+        .btn-typeform.btn-primary {
+            background: linear-gradient(135deg, #FF6B35 0%, #FFB830 100%) !important;
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3) !important;
+        }
+        
+        .btn-typeform:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4) !important;
+        }
+        
+        .btn-typeform:active {
+            transform: translateY(0) !important;
+        }
+        
+        .plan-option {
+            border: 2px solid #e1e5e9 !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            background: #fafbfc !important;
+            position: relative !important;
+            text-align: center !important;
+            margin: 10px 0 !important;
+        }
+        
+        .plan-option:hover {
+            border-color: #FF6B35 !important;
+            background: rgba(255, 107, 53, 0.05) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15) !important;
+        }
+        
+        .plan-option.selected {
+            border-color: #FF6B35 !important;
+            background: rgba(255, 107, 53, 0.1) !important;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2) !important;
+        }
+        
+        .plan-option.selected::after {
+            content: '✓ SELECIONADO';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FF6B35;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .plan-options {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 20px !important;
+            margin: 30px 0 !important;
+        }
+        
+        .plan-header h3 {
+            color: #1B365D !important;
+            margin: 15px 0 !important;
+        }
+        
+        .plan-header i {
+            font-size: 30px !important;
+            color: #FF6B35 !important;
+            margin-bottom: 10px !important;
+        }
+        
+        /* Garantir que nada bloqueie os cliques */
+        * {
+            pointer-events: auto !important;
+        }
+        
+        .step-footer {
+            pointer-events: auto !important;
+        }
+        
+        @media (max-width: 768px) {
+            .plan-options {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        /* Estilos para resumo do questionário */
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .summary-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid #FF6B35;
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .summary-section h4 {
+            color: #1B365D;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .summary-value {
+            color: #333;
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .summary-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .summary-tag {
+            background: linear-gradient(135deg, #FF6B35, #FFB830);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .commitment-meter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .meter-bar {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B35, #FFB830);
+            transition: width 0.3s ease;
+        }
+        
+        .meter-value {
+            font-weight: 600;
+            color: #FF6B35;
+        }
+        
+        .leadership-score {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B35, #FFB830);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .score-number {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        
+        .score-total {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .score-description {
+            color: #333;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .recommendation-section {
+            background: linear-gradient(135deg, #1B365D, #2c5282);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .recommendation-section h4 {
+            color: #FFB830;
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-card h5 {
+            color: #FFB830;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .recommendation-card p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .feature-tag {
+            background: rgba(255, 184, 48, 0.2);
+            color: #FFB830;
+            border: 1px solid #FFB830;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Formulário Section - Estilo Typeform -->
+    <section class="typeform-section">
+        <div class="typeform-container">
+            <div class="typeform-content">
+                <!-- Step 1: Bem-vindo -->
+                <div class="form-step active" id="step-welcome">
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h2 class="step-title">Bem-vindo(a)! 👋</h2>
+                        <p class="step-description">Vamos descobrir qual mentoria é perfeita para você através de um questionário detalhado.</p>
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Começar Questionário
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Escolha do Plano -->
+                <div class="form-step" id="step-plan">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <h2 class="step-title">Qual formato combina mais com você?</h2>
+                        <p class="step-description">Escolha a modalidade que melhor se adapta ao seu perfil:</p>
+                        
+                        <div class="plan-options">
+                            <div class="plan-option" data-plan="grupo" style="border: 2px solid #e1e5e9; border-radius: 15px; padding: 25px; cursor: pointer; transition: all 0.3s ease; background: #fafbfc; position: relative; text-align: center; margin: 10px;">
+                                <div class="plan-header">
+                                    <i class="fas fa-users"></i>
+                                    <h3>Mentoria em Grupo</h3>
+                                    <span class="plan-badge">MAIS ESCOLHIDA</span>
+                                </div>
+                                <p>Ideal para quem valoriza networking e aprende melhor em grupo</p>
+                                <ul class="plan-features">
+                                    <li>Lives semanais ao vivo</li>
+                                    <li>Grupo exclusivo WhatsApp</li>
+                                    <li>Networking com outros profissionais</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-option" data-plan="individual" style="border: 2px solid #e1e5e9; border-radius: 15px; padding: 25px; cursor: pointer; transition: all 0.3s ease; background: #fafbfc; position: relative; text-align: center; margin: 10px;">
+                                <div class="plan-header">
+                                    <i class="fas fa-user-crown"></i>
+                                    <h3>Mentoria Individual</h3>
+                                    <span class="plan-badge premium">PREMIUM</span>
+                                </div>
+                                <p>Perfeita para atenção 100% personalizada e resultados mais rápidos</p>
+                                <ul class="plan-features">
+                                    <li>4 sessões individuais 1:1</li>
+                                    <li>Plano 100% personalizado</li>
+                                    <li>Suporte prioritário</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()" id="planContinueBtn" style="opacity: 0.5; pointer-events: none; background: #ccc; color: #666;">
+                                ⚠️ Selecione um plano primeiro
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Dados Pessoais -->
+                <div class="form-step" id="step-dados">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <h2 class="step-title">Dados Pessoais</h2>
+                        <p class="step-description">Precisamos conhecer você melhor:</p>
+                        
+                        <form class="typeform-fields" id="mainForm">
+                            <input type="hidden" id="selectedPlan" name="plano" value="">
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="nome">
+                                    <span class="label-text">Nome Completo: *</span>
+                                    <span class="label-icon">👤</span>
+                                </label>
+                                <input type="text" id="nome" name="nome" class="typeform-input" placeholder="Digite seu nome completo" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="email">
+                                    <span class="label-text">E-mail: *</span>
+                                    <span class="label-icon">📧</span>
+                                </label>
+                                <input type="email" id="email" name="email" class="typeform-input" placeholder="seu@email.com" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="telefone">
+                                    <span class="label-text">Telefone (com DDD): *</span>
+                                    <span class="label-icon">📱</span>
+                                </label>
+                                <input type="tel" id="telefone" name="telefone" class="typeform-input" placeholder="(11) 99999-9999" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="cidade">
+                                    <span class="label-text">Cidade / Estado: *</span>
+                                    <span class="label-icon">📍</span>
+                                </label>
+                                <input type="text" id="cidade" name="cidade" class="typeform-input" placeholder="São Paulo / SP" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="idade">
+                                    <span class="label-text">Idade: *</span>
+                                    <span class="label-icon">🎂</span>
+                                </label>
+                                <input type="number" id="idade" name="idade" class="typeform-input" placeholder="35" min="18" max="100" required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="profissao">
+                                    <span class="label-text">Profissão / Área de Atuação: *</span>
+                                    <span class="label-icon">💼</span>
+                                </label>
+                                <input type="text" id="profissao" name="profissao" class="typeform-input" placeholder="Ex: Gerente de Vendas, CEO, Empreendedor..." required>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label" for="obstaculos">
+                                    <span class="label-text">Quais são os maiores obstáculos (internos ou externos) que você acredita que te impedem de alcançar resultados sozinho(a)? *</span>
+                                    <span class="label-icon">🚧</span>
+                                </label>
+                                <textarea id="obstaculos" name="obstaculos" class="typeform-input" placeholder="Descreva os principais desafios que você enfrenta..." rows="4" required></textarea>
+                            </div>
+                        </form>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Diagnóstico -->
+                <div class="form-step" id="step-diagnostico">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <h2 class="step-title">Diagnóstico e Impacto Atual</h2>
+                        <p class="step-description">Vamos entender melhor suas necessidades específicas:</p>
+                        
+                        <div class="diagnostico-section">
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span class="label-text">Qual o seu principal objetivo ao buscar esta mentoria? (Marque a prioridade nº 1) *</span>
+                                    <span class="label-icon">🎯</span>
+                                </label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="objetivo_principal" value="gerenciar_ansiedade" required>
+                                        <span class="radio-custom"></span>
+                                        Gerenciar a ansiedade para tomar decisões mais claras sob pressão.
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="objetivo_principal" value="inteligencia_emocional" required>
+                                        <span class="radio-custom"></span>
+                                        Desenvolver inteligência emocional para melhorar minha liderança e gestão de equipes.
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="objetivo_principal" value="foco_performance" required>
+                                        <span class="radio-custom"></span>
+                                        Aumentar meu foco e performance, reduzindo o estresse e o risco de burnout.
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="objetivo_principal" value="comunicacao_influencia" required>
+                                        <span class="radio-custom"></span>
+                                        Melhorar a comunicação e a influência em negociações e relacionamentos estratégicos.
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="objetivo_principal" value="equilibrio_vida" required>
+                                        <span class="radio-custom"></span>
+                                        Equilibrar as altas demandas profissionais com minha vida pessoal e bem-estar.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span class="label-text">Em que situações a ansiedade ou estresse mais afetam seu desempenho? (Pode marcar mais de uma) *</span>
+                                    <span class="label-icon">😰</span>
+                                </label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="reunioes_apresentacoes">
+                                        <span class="checkbox-custom"></span>
+                                        Antes de reuniões ou apresentações importantes.
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="decisoes_risco">
+                                        <span class="checkbox-custom"></span>
+                                        Ao ter que tomar decisões de alto risco.
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="feedbacks_dificeis">
+                                        <span class="checkbox-custom"></span>
+                                        Ao dar ou receber feedbacks difíceis.
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="conflitos_equipe">
+                                        <span class="checkbox-custom"></span>
+                                        Na gestão de conflitos dentro da equipe.
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="pressao_constante">
+                                        <span class="checkbox-custom"></span>
+                                        Sinto uma pressão constante, difícil de "desligar" no fim do dia.
+                                    </label>
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" name="situacoes_estresse" value="outro">
+                                        <span class="checkbox-custom"></span>
+                                        Outra situação:
+                                        <input type="text" name="situacoes_estresse_outro" class="typeform-input inline-input" placeholder="Descreva...">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label" for="inteligencia_emocional">
+                                    <span class="label-text">Qual habilidade de Inteligência Emocional, se desenvolvida, traria maior impacto? *</span>
+                                    <span class="label-icon">🧠</span>
+                                </label>
+                                <input type="text" id="inteligencia_emocional" name="inteligencia_emocional" class="typeform-input" placeholder="Ex: Autocontrole, empatia, comunicação assertiva..." required>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Visão de Futuro -->
+                <div class="form-step" id="step-futuro">
+                    <div class="step-content">
+                        <div class="step-number">4</div>
+                        <h2 class="step-title">Visão de Futuro e Comprometimento</h2>
+                        <p class="step-description">Vamos visualizar seus objetivos e medir seu comprometimento:</p>
+                        
+                        <div class="futuro-section">
+                            <div class="field-group">
+                                <label class="field-label" for="visao_futuro">
+                                    <span class="label-text">Avançando 6 meses: A mentoria foi um sucesso! Qual foi a mudança mais significativa em seus negócios e vida pessoal? *</span>
+                                    <span class="label-icon">🚀</span>
+                                </label>
+                                <textarea id="visao_futuro" name="visao_futuro" class="typeform-input" placeholder="Descreva detalhadamente como sua vida e carreira mudaram..." rows="4" required></textarea>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span class="label-text">Nível de comprometimento para gerar essa transformação (0-10): *</span>
+                                    <span class="label-icon">💪</span>
+                                </label>
+                                <div class="scale-group">
+                                    <div class="scale-labels">
+                                        <span>0 - Nenhum interesse</span>
+                                        <span>10 - Totalmente comprometido</span>
+                                    </div>
+                                    <div class="scale-options">
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="0" required><span>0</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="1" required><span>1</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="2" required><span>2</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="3" required><span>3</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="4" required><span>4</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="5" required><span>5</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="6" required><span>6</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="7" required><span>7</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="8" required><span>8</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="9" required><span>9</span></label>
+                                        <label class="scale-option"><input type="radio" name="comprometimento" value="10" required><span>10</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span class="label-text">Avalie sua confiança nas seguintes áreas (1-5): *</span>
+                                    <span class="label-icon">⭐</span>
+                                </label>
+                                
+                                <div class="confidence-assessments">
+                                    <div class="confidence-item">
+                                        <label>Expressar suas opiniões em reuniões ou grupos:</label>
+                                        <div class="confidence-scale">
+                                            <label><input type="radio" name="confianca_opiniao" value="1" required><span>1</span></label>
+                                            <label><input type="radio" name="confianca_opiniao" value="2" required><span>2</span></label>
+                                            <label><input type="radio" name="confianca_opiniao" value="3" required><span>3</span></label>
+                                            <label><input type="radio" name="confianca_opiniao" value="4" required><span>4</span></label>
+                                            <label><input type="radio" name="confianca_opiniao" value="5" required><span>5</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="confidence-item">
+                                        <label>Ter conversas difíceis ou dar feedback negativo:</label>
+                                        <div class="confidence-scale">
+                                            <label><input type="radio" name="confianca_feedback" value="1" required><span>1</span></label>
+                                            <label><input type="radio" name="confianca_feedback" value="2" required><span>2</span></label>
+                                            <label><input type="radio" name="confianca_feedback" value="3" required><span>3</span></label>
+                                            <label><input type="radio" name="confianca_feedback" value="4" required><span>4</span></label>
+                                            <label><input type="radio" name="confianca_feedback" value="5" required><span>5</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="confidence-item">
+                                        <label>Falar em público ou fazer apresentações:</label>
+                                        <div class="confidence-scale">
+                                            <label><input type="radio" name="confianca_publico" value="1" required><span>1</span></label>
+                                            <label><input type="radio" name="confianca_publico" value="2" required><span>2</span></label>
+                                            <label><input type="radio" name="confianca_publico" value="3" required><span>3</span></label>
+                                            <label><input type="radio" name="confianca_publico" value="4" required><span>4</span></label>
+                                            <label><input type="radio" name="confianca_publico" value="5" required><span>5</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="confidence-item">
+                                        <label>Defender suas necessidades e dizer "não" de forma clara:</label>
+                                        <div class="confidence-scale">
+                                            <label><input type="radio" name="confianca_assertividade" value="1" required><span>1</span></label>
+                                            <label><input type="radio" name="confianca_assertividade" value="2" required><span>2</span></label>
+                                            <label><input type="radio" name="confianca_assertividade" value="3" required><span>3</span></label>
+                                            <label><input type="radio" name="confianca_assertividade" value="4" required><span>4</span></label>
+                                            <label><input type="radio" name="confianca_assertividade" value="5" required><span>5</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="nextStep()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6: Confirmação -->
+                <div class="form-step" id="step-final">
+                    <div class="step-content">
+                        <div class="step-number">5</div>
+                        <h2 class="step-title">Confirmação dos Dados ✨</h2>
+                        <p class="step-description">Revise suas informações antes de finalizar:</p>
+                        
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>Resumo do Questionário:</h3>
+                            </div>
+                            <div class="summary-content" id="summaryContent">
+                                <!-- Resumo será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-secondary" onclick="prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Voltar
+                            </button>
+                            <button class="btn-typeform btn-primary" onclick="submitForm()">
+                                <i class="fas fa-check"></i>
+                                Finalizar Questionário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7: Sucesso -->
+                <div class="form-step" id="step-success">
+                    <div class="step-content">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2 class="step-title">Questionário enviado com sucesso! 🎉</h2>
+                        <p class="step-description">Nossa equipe analisará suas respostas e entrará em contato em até 24 horas para apresentar a melhor proposta para seu perfil.</p>
+                        
+                        <div class="next-steps">
+                            <h3>Próximos passos:</h3>
+                            <ul>
+                                <li>📧 Verifique seu e-mail (inclusive spam)</li>
+                                <li>📱 Aguarde nosso contato via WhatsApp</li>
+                                <li>🎯 Prepare-se para sua jornada de transformação</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="step-footer">
+                            <button class="btn-typeform btn-primary" onclick="window.location.href='index.html'">
+                                <i class="fas fa-home"></i>
+                                Voltar ao Início
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="currentStep">1</span> / <span id="totalSteps">6</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script-simples.js"></script>
+    
+    <!-- Script de Emergência para Seleção de Planos -->
+    <script>
+        // Variáveis globais para compatibilidade
+        let globalClientId = 'client_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        let globalSelectedPlan = '';
+        
+        console.log('🆔 CLIENT_ID global gerado:', globalClientId);
+        
+        // Garantir que a seleção funcione
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🛠️ Script de emergência carregado');
+            
+            // Verificar se o script principal foi carregado
+            setTimeout(function() {
+                console.log('🔍 Verificando funções do script principal:');
+                console.log('- CLIENT_ID:', typeof CLIENT_ID !== 'undefined' ? CLIENT_ID : 'NÃO ENCONTRADO');
+                console.log('- sendWebhook:', typeof sendWebhook !== 'undefined' ? '✅ CARREGADO' : '❌ NÃO CARREGADO');
+                console.log('- selectPlan:', typeof selectPlan !== 'undefined' ? '✅ CARREGADO' : '❌ NÃO CARREGADO');
+                console.log('- currentStep:', typeof currentStep !== 'undefined' ? currentStep : 'NÃO ENCONTRADO');
+                
+                // Fix específico para botões travados
+                const botoes = document.querySelectorAll('.btn-typeform');
+                console.log('🔧 Desbloqueando', botoes.length, 'botões...');
+                
+                botoes.forEach((botao, index) => {
+                    // Remover qualquer bloqueio
+                    botao.style.pointerEvents = 'auto';
+                    botao.style.opacity = '1';
+                    botao.style.cursor = 'pointer';
+                    botao.disabled = false;
+                    
+                    // Garantir que o clique funcione
+                    botao.addEventListener('click', function(e) {
+                        console.log('🖱️ Botão', index + 1, 'clicado!');
+                        
+                        // Se for o botão de começar questionário
+                        if (this.onclick || this.getAttribute('onclick')) {
+                            console.log('✅ Executando ação do botão...');
+                        }
+                    });
+                    
+                    console.log('✅ Botão', index + 1, 'desbloqueado');
+                });
+            }, 100);
+            
+            // Aguardar um pouco para garantir que tudo foi carregado
+            setTimeout(function() {
+                // Enviar webhook de inicialização se o script principal não estiver funcionando
+                if (typeof sendWebhook !== 'function') {
+                    console.log('⚠️ Função sendWebhook não encontrada, enviando webhook de inicialização manual');
+                    
+                    const webhookData = {
+                        client_id: globalClientId,
+                        session_id: globalClientId,
+                        timestamp: new Date().toISOString(),
+                        step_completed: 0,
+                        plan: '',
+                        source: 'questionario_completo',
+                        interaction: 'questionnaire_started',
+                        user_agent: navigator.userAgent,
+                        referrer: document.referrer || 'direct',
+                        page_url: window.location.href
+                    };
+                    
+                    fetch('https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(webhookData)
+                    }).then(response => {
+                        console.log('📡 Webhook de inicialização enviado - Status:', response.status);
+                    }).catch(error => {
+                        console.error('❌ Erro no webhook de inicialização:', error);
+                    });
+                }
+                
+                const planOptions = document.querySelectorAll('.plan-option');
+                console.log('🔧 Elementos encontrados:', planOptions.length);
+                
+                planOptions.forEach(function(option, index) {
+                    console.log('🔧 Adicionando listener de emergência ao plano', index + 1);
+                    
+                    option.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const plan = this.getAttribute('data-plan');
+                        console.log('🎯 EMERGÊNCIA - Plano clicado:', plan);
+                        
+                        // Remover seleção de todos
+                        planOptions.forEach(p => p.classList.remove('selected'));
+                        
+                        // Adicionar seleção ao clicado
+                        this.classList.add('selected');
+                        
+                        // Habilitar botão continuar
+                        const continueBtn = document.getElementById('planContinueBtn');
+                        if (continueBtn) {
+                            continueBtn.style.opacity = '1';
+                            continueBtn.style.pointerEvents = 'auto';
+                            continueBtn.style.background = '#FF6B35';
+                            continueBtn.innerHTML = 'Continuar <i class="fas fa-arrow-right"></i>';
+                            console.log('✅ Botão habilitado via script de emergência');
+                        }
+                        
+                        // Salvar seleção global
+                        globalSelectedPlan = plan;
+                        
+                        // Chamar função original se existir
+                        if (typeof selectPlan === 'function') {
+                            selectPlan(plan);
+                        } else {
+                            // Se a função não existir, enviar webhook manualmente
+                            console.log('⚠️ Função selectPlan não encontrada, enviando webhook manualmente');
+                            
+                            // Usar CLIENT_ID global ou do script principal
+                            const clientId = (typeof CLIENT_ID !== 'undefined') ? CLIENT_ID : globalClientId;
+                            
+                            // Simular dados do questionário
+                            const webhookData = {
+                                client_id: clientId,
+                                session_id: clientId,
+                                timestamp: new Date().toISOString(),
+                                step_completed: 0.5,
+                                plan: plan === 'grupo' ? 'Mentoria em Grupo' : 'Mentoria Individual',
+                                source: 'questionario_completo',
+                                interaction: 'plan_selected',
+                                plan_selection_time: new Date().toISOString()
+                            };
+                            
+                            console.log('📤 Enviando webhook manual:', webhookData);
+                            
+                            // Enviar para webhook
+                            fetch('https://up-n8n.welzbd.easypanel.host/webhook-test/a90b965c-7606-43eb-9d80-18e99bbd6718', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify(webhookData)
+                            }).then(response => {
+                                console.log('📡 Webhook enviado - Status:', response.status);
+                                return response.text();
+                            }).then(data => {
+                                console.log('✅ Resposta do webhook:', data);
+                            }).catch(error => {
+                                console.error('❌ Erro no webhook:', error);
+                            });
+                        }
+                    });
+                    
+                    // Adicionar estilos de hover via JavaScript
+                    option.addEventListener('mouseenter', function() {
+                        if (!this.classList.contains('selected')) {
+                            this.style.borderColor = '#FF6B35';
+                            this.style.background = 'rgba(255, 107, 53, 0.05)';
+                            this.style.transform = 'translateY(-2px)';
+                        }
+                    });
+                    
+                    option.addEventListener('mouseleave', function() {
+                        if (!this.classList.contains('selected')) {
+                            this.style.borderColor = '#e1e5e9';
+                            this.style.background = '#fafbfc';
+                            this.style.transform = 'translateY(0)';
+                        }
+                    });
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

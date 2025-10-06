@@ -1,0 +1,165 @@
+{
+  "webhook_data_examples": {
+    "step_0_initialization": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:30:45.123Z",
+      "step_completed": 0,
+      "plan": "",
+      "name": "",
+      "email": "",
+      "phone": "",
+      "city": "",
+      "age": "",
+      "profession": "",
+      "obstacles": "",
+      "main_objective": "",
+      "stress_situations": [],
+      "emotional_intelligence": "",
+      "future_vision": "",
+      "commitment_level": "",
+      "confidence_scores": {
+        "expressing_opinions": "",
+        "difficult_conversations": "",
+        "public_speaking": "",
+        "assertiveness": ""
+      },
+      "source": "questionario_completo",
+      "interaction": "questionnaire_started",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "referrer": "direct",
+      "page_url": "http://localhost:8000/questionario.html"
+    },
+    
+    "step_0_5_plan_selection": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:31:15.456Z",
+      "step_completed": 0.5,
+      "plan": "Mentoria Individual",
+      "source": "questionario_completo",
+      "plan_selection_time": "2025-10-03T10:31:15.456Z",
+      "interaction": "plan_selected"
+    },
+    
+    "step_1_plan_confirmed": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:31:30.789Z",
+      "step_completed": 1,
+      "plan": "Mentoria Individual",
+      "source": "questionario_completo"
+    },
+    
+    "step_2_personal_data": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:33:45.012Z",
+      "step_completed": 2,
+      "plan": "Mentoria Individual",
+      "name": "João Silva",
+      "email": "joao.silva@email.com",
+      "phone": "(11) 99999-9999",
+      "city": "São Paulo",
+      "age": "35",
+      "profession": "Gerente de Vendas",
+      "obstacles": "Dificuldade em liderar equipes",
+      "source": "questionario_completo"
+    },
+    
+    "step_3_diagnostic": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:35:20.345Z",
+      "step_completed": 3,
+      "plan": "Mentoria Individual",
+      "name": "João Silva",
+      "email": "joao.silva@email.com",
+      "phone": "(11) 99999-9999",
+      "main_objective": "Melhorar liderança",
+      "stress_situations": ["reunioes", "confrontos"],
+      "emotional_intelligence": "4",
+      "source": "questionario_completo"
+    },
+    
+    "step_4_future_vision": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:37:10.678Z",
+      "step_completed": 4,
+      "plan": "Mentoria Individual",
+      "future_vision": "Ser um líder confiante e respeitado",
+      "commitment_level": "8",
+      "confidence_scores": {
+        "expressing_opinions": "6",
+        "difficult_conversations": "4",
+        "public_speaking": "3",
+        "assertiveness": "5"
+      },
+      "source": "questionario_completo"
+    },
+    
+    "step_5_final_submission": {
+      "client_id": "client_1728123456789_abc123def",
+      "session_id": "client_1728123456789_abc123def",
+      "timestamp": "2025-10-03T10:38:00.901Z",
+      "step_completed": 6,
+      "plan": "Mentoria Individual",
+      "name": "João Silva",
+      "email": "joao.silva@email.com",
+      "phone": "(11) 99999-9999",
+      "city": "São Paulo",
+      "age": "35",
+      "profession": "Gerente de Vendas",
+      "obstacles": "Dificuldade em liderar equipes",
+      "main_objective": "Melhorar liderança",
+      "stress_situations": ["reunioes", "confrontos"],
+      "emotional_intelligence": "4",
+      "future_vision": "Ser um líder confiante e respeitado",
+      "commitment_level": "8",
+      "confidence_scores": {
+        "expressing_opinions": "6",
+        "difficult_conversations": "4",
+        "public_speaking": "3",
+        "assertiveness": "5"
+      },
+      "source": "questionario_completo",
+      "status": "completed",
+      "conversion_step": "form_submitted",
+      "completion_time": "2025-10-03T10:38:00.901Z"
+    },
+    
+    "abandonment_example": {
+      "client_id": "client_1728123456789_xyz789ghi",
+      "session_id": "client_1728123456789_xyz789ghi",
+      "timestamp": "2025-10-03T10:32:30.234Z",
+      "step_completed": 2.1,
+      "plan": "Mentoria em Grupo",
+      "name": "Maria Santos",
+      "email": "maria@email.com",
+      "source": "questionario_completo",
+      "interaction": "questionnaire_abandoned",
+      "last_step": 2,
+      "time_spent": 180000
+    }
+  },
+  
+  "client_id_format": {
+    "pattern": "client_{timestamp}_{random}",
+    "example": "client_1728123456789_abc123def",
+    "description": "ID único gerado para cada sessão de questionário",
+    "components": {
+      "prefix": "client_",
+      "timestamp": "Timestamp Unix em milissegundos",
+      "random": "String aleatória de 9 caracteres"
+    }
+  },
+  
+  "webhook_usage": {
+    "primary_key": "client_id",
+    "session_tracking": "Use client_id para rastrear toda a jornada do usuário",
+    "data_aggregation": "Agrupe todos os webhooks pelo mesmo client_id",
+    "lead_scoring": "Calcule score baseado nos steps completados",
+    "abandonment_analysis": "Identifique pontos de abandono por step_completed"
+  }
+}

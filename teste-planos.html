@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Seleção de Planos</title>
+    <link rel="stylesheet" href="formulario-completo.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px;
+        }
+        h1 { 
+            text-align: center; 
+            color: #1B365D; 
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de Seleção de Planos</h1>
+        
+        <section class="typeform-section">
+            <div class="plan-options">
+                <div class="plan-option" data-plan="grupo">
+                    <div class="plan-header">
+                        <i class="fas fa-users"></i>
+                        <h3>Mentoria em Grupo</h3>
+                        <span class="plan-badge">MAIS ESCOLHIDA</span>
+                    </div>
+                    <p>Ideal para quem valoriza networking e aprende melhor em grupo</p>
+                    <ul class="plan-features">
+                        <li>Lives semanais ao vivo</li>
+                        <li>Grupo exclusivo WhatsApp</li>
+                        <li>Networking com outros profissionais</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-option" data-plan="individual">
+                    <div class="plan-header">
+                        <i class="fas fa-user-crown"></i>
+                        <h3>Mentoria Individual</h3>
+                        <span class="plan-badge premium">PREMIUM</span>
+                    </div>
+                    <p>Perfeita para atenção 100% personalizada e resultados mais rápidos</p>
+                    <ul class="plan-features">
+                        <li>4 sessões individuais 1:1</li>
+                        <li>Plano 100% personalizado</li>
+                        <li>Suporte prioritário</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button id="planContinueBtn" style="opacity: 0.5; pointer-events: none; margin-top: 20px; padding: 15px 30px; background: #FF6B35; color: white; border: none; border-radius: 8px; font-weight: bold;">
+                Continuar (Selecione um plano primeiro)
+            </button>
+        </section>
+    </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Script -->
+    <script src="script-questionario.js"></script>
+    
+    <script>
+        // Log adicional para debug
+        console.log('📄 Página de teste carregada');
+        
+        // Adicionar logs aos elementos
+        setTimeout(() => {
+            const planOptions = document.querySelectorAll('.plan-option');
+            console.log('🧪 TESTE - Elementos encontrados:', planOptions.length);
+            
+            planOptions.forEach((option, index) => {
+                console.log(`🧪 TESTE - Plano ${index + 1}:`, option.getAttribute('data-plan'));
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Teste Botão - Instituto UP</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f5f5f5;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin: 10px;
+            background: linear-gradient(135deg, #FF6B35 0%, #FFB830 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .test-button:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Teste de Botão Específico</h1>
+    
+    <div id="status"></div>
+    
+    <button class="test-button" onclick="testarBotao()" id="botaoTeste">
+        🚀 Começar Questionário (Teste)
+        <i>→</i>
+    </button>
+    
+    <button class="test-button" onclick="chamarNextStep()">
+        ⏭️ Testar nextStep()
+    </button>
+    
+    <button class="test-button" onclick="verificarElementos()">
+        🔍 Verificar Elementos
+    </button>
+    
+    <script>
+        function log(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            const timestamp = new Date().toLocaleTimeString();
+            statusDiv.innerHTML += `<div class="${type}">[${timestamp}] ${message}</div>`;
+            console.log(message);
+        }
+        
+        function testarBotao() {
+            log('✅ SUCESSO! Botão está funcionando perfeitamente!', 'success');
+            log('🎯 Simulando início do questionário...', 'info');
+            
+            // Simular o que o botão deveria fazer
+            setTimeout(() => {
+                log('📋 Questionário iniciado com sucesso!', 'success');
+                
+                // Tentar chamar a função nextStep se existir
+                if (typeof nextStep === 'function') {
+                    log('🔧 Chamando nextStep()...', 'info');
+                    nextStep();
+                } else {
+                    log('⚠️ Função nextStep() não encontrada, mas botão funciona!', 'info');
+                    window.location.href = 'questionario.html#step1';
+                }
+            }, 1000);
+        }
+        
+        function chamarNextStep() {
+            try {
+                if (typeof nextStep === 'function') {
+                    log('✅ Executando nextStep()...', 'success');
+                    nextStep();
+                } else {
+                    log('❌ Função nextStep() não está disponível', 'error');
+                    log('🔧 Tentando carregar script...', 'info');
+                    
+                    const script = document.createElement('script');
+                    script.src = 'script-simples.js';
+                    script.onload = () => {
+                        log('✅ Script carregado! Tentando novamente...', 'success');
+                        if (typeof nextStep === 'function') {
+                            nextStep();
+                        }
+                    };
+                    document.head.appendChild(script);
+                }
+            } catch (error) {
+                log('❌ Erro ao executar nextStep: ' + error.message, 'error');
+            }
+        }
+        
+        function verificarElementos() {
+            log('🔍 Verificando elementos na página principal...', 'info');
+            
+            // Abrir questionário em nova aba para verificar
+            const janela = window.open('questionario.html', '_blank');
+            
+            setTimeout(() => {
+                try {
+                    const botoes = janela.document.querySelectorAll('.btn-typeform');
+                    log('🔍 Botões encontrados na página principal: ' + botoes.length, 'info');
+                    
+                    botoes.forEach((botao, index) => {
+                        const onclick = botao.getAttribute('onclick');
+                        const disabled = botao.disabled;
+                        const pointerEvents = getComputedStyle(botao).pointerEvents;
+                        
+                        log(`Botão ${index + 1}: onclick="${onclick}", disabled=${disabled}, pointerEvents="${pointerEvents}"`, 'info');
+                    });
+                } catch (error) {
+                    log('❌ Erro ao verificar elementos: ' + error.message, 'error');
+                }
+            }, 2000);
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Página de teste carregada', 'success');
+            log('🔗 Clique no botão para testar se está funcionando', 'info');
+        });
+    </script>
+</body>
+</html>
